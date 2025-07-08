@@ -1,1 +1,61 @@
-//
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro de Viajeros</title>
+    <style>
+        /* Reseteo básico para eliminar márgenes y paddings */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            /* Evita barras de scroll en el contenedor */
+        }
+        /* Contenedor que posicionará el iframe */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* Ocupa el 100% de la altura de la ventana */
+        }
+        /* El iframe que contiene la app de Google */
+        #google-app-iframe {
+            position: absolute;
+            /* El truco mágico: movemos el iframe hacia arriba */
+            top: 0px;
+            left: 0;
+            width: 100%;
+            /* Hacemos el iframe más alto para compensar lo que movimos hacia arriba */
+            height: calc(100% + 45px);
+            border: none;
+            /* Quitamos el borde por defecto del iframe */
+        }
+    </style>
+</head>
+<body>
+    <div class="iframe-container">
+        <!-- El iframe empieza sin 'src' para que el script lo construya -->
+        <iframe id="google-app-iframe">
+            Cargando formulario...
+        </iframe>
+    </div>
+    <script>
+        // --- INICIO DEL SCRIPT DE REENVÍO ---
+        // 1. Define la URL base de tu aplicación de Google Apps Script
+        const googleWebAppUrl = 'https://script.google.com/macros/s/AKfycbzvNDRQMwaArsYac2uQrW_K3NooL38cxD36WjcZ_caKyufa44pIiBKHxXio6gOOGxrQ/exec';
+        // 2. Obtiene los parámetros de la URL de esta página (contenedor.html)
+        const params = new URLSearchParams(window.location.search);
+        // 3. Construye la URL final para el iframe, añadiendo los parámetros
+        //    El método .toString() convierte los parámetros a un string como "nReserva=123&cNombre=Juan"
+        const iframeSrc = `${googleWebAppUrl}?${params.toString()}`;
+        // 4. Asigna la URL construida al 'src' del iframe
+        const iframe = document.getElementById('google-app-iframe');
+        iframe.src = iframeSrc;
+        // --- FIN DEL SCRIPT DE REENVÍO ---
+    </script>
+</body>
+
+</html>
